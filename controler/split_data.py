@@ -46,8 +46,7 @@ def split_dataset(input_folder, output_folder, train_ratio=0.7, test_ratio=0.15,
         shutil.copy(os.path.join(input_folder, img_file),
                     os.path.join(output_folder, 'valid', img_file))
 
-
-# Example usage
-input_folder = 'data/VN_traffic_sign_vid_data/Video3_frames/raw data'
-output_folder = 'data/VN_traffic_sign_vid_data/Video3_frames/split'
-split_dataset(input_folder, output_folder)
+if __name__ == '__main__':
+    input_folder = 'VN_traffic_sign_vid_data/Video for R-CNN/frames'
+    output_folder = 'VN_traffic_sign_vid_data/Video for R-CNN/Vietnam_video_traffic_sign_rcnn'
+    split_dataset(input_folder, output_folder)
