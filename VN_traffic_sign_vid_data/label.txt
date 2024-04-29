@@ -1,0 +1,21 @@
+Đi chậm
+Chỉ dẫn rẽ trái
+Chỉ dẫn rẽ phải
+Chỉ dẫn đi thẳng
+Chỉ hướng đường
+Hướng đi theo vạch kẻ đường
+Làn đường cho từng xe
+Cấm phương tiện ở biển phụ rẽ trái
+Cấm rẽ trái
+Cấm đi ngược chiều
+Cấm xe máy
+Cấm các phương tiện quy định theo khung giờ
+Cấm dừng - Cấm đỗ
+Giới hạn tốc độ: 30
+Giới hạn tốc độ: 50
+Giới hạn tốc độ: 60
+Giới hạn tốc độ: 80
+Công trường
+Giới hạn chiều cao và hàng
+Hướng phải đi
+Khác
