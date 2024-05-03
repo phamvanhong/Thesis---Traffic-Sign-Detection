@@ -48,9 +48,9 @@ def run_tracker_in_thread(filename: str, model, file_index):
 
 def main():
     # Path to the video file
-    video_file = r"data\VN_traffic_sign_vid_data\sample videos\video 2.mp4"
+    video_file = r"video\video-YOLO.mp4"
     # Load the best weight of the YOLOv8 pre-trained model
-    model = load_model(r"notebook\yolo_model_trainning _for_video\best.pt")
+    model = load_model(r"notebook\yolo-training-model-for-video\best.pt")
     tracker = threading.Thread(target=run_tracker_in_thread,
                                args=(video_file, model, 1),
                                daemon=True)
