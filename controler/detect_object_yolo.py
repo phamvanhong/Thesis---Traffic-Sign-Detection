@@ -13,51 +13,48 @@ def load_model(model_name):
     return model
 
 
-def run_tracker_in_thread(filename: str, model, file_index):
+def detect_object(video_path: str, model: YOLO):
     """
-    Deject object in a sample video file using YOLOv8 model
-
-    - filename: The path to the video file or the webcam/external
-    camera source.
-    - model: The file path to the YOLOv8 model.
-    - file_index: An argument to specify the count of the
-    file being processed.
+    Detect objects in a video using the YOLOv8 model
+    Args:
+        video_path (str): path to the video file
+        model (YOLO): YOLOv8 model
+    
     """
+    cap = cv2.VideoCapture(video_path)
 
-    video = cv2.VideoCapture(filename)  # Read the video file
+    # Loop through the video frames
+    while cap.isOpened():
+        # Read a frame from the video
+        success, frame = cap.read()
 
-    while True:
-        ret, frame = video.read()  # Read the video frames
+        if success:
+            # Run YOLOv8 inference on the frame
+            results = model(frame)
 
-        # Exit the loop if no more frames in either video
-        if not ret:
+            # Visualize the results on the frame
+            annotated_frame = results[0].plot()
+
+            # Display the annotated frame
+            cv2.imshow("YOLOv8 Detection", annotated_frame)
+
+            # Break the loop if 'q' is pressed
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                break
+        else:
+            # Break the loop if the end of the video is reached
             break
 
-        # Track objects in frames if available
-        results = model.track(frame, persist=True)
-        res_plotted = results[0].plot()
-        cv2.imshow("Detect Object", res_plotted)
-
-        key = cv2.waitKey(1)
-        if key == ord('q'):
-            break
-
-    # Release video sources
-    video.release()
-
+    # Release the video capture object and close the display window
+    cap.release()
 
 def main():
     # Path to the video file
     video_file = r"video\video-YOLO.mp4"
     # Load the best weight of the YOLOv8 pre-trained model
-    model = load_model(r"notebook\yolo-training-model-for-video\best.pt")
-    tracker = threading.Thread(target=run_tracker_in_thread,
-                               args=(video_file, model, 1),
-                               daemon=True)
-    tracker.start()
-    tracker.join()
+    model = load_model(r"notebook\yolo-training-model-for-video\64epoch_batch16\best.pt")
+    detect_object(video_file, model)
     cv2.destroyAllWindows()
-
 
 if __name__ == "__main__":
     main()
