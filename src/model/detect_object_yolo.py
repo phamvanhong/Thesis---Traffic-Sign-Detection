@@ -39,7 +39,7 @@ def detect_object(video_path: str, model: YOLO):
             cv2.imshow("YOLOv8 Detection", annotated_frame)
 
             # Break the loop if 'q' is pressed
-            if cv2.waitKey(1) & 0xFF == ord("q"):
+            if cv2.waitKey(1) & 0xFF == ord(Q):
                 break
         else:
             # Break the loop if the end of the video is reached
