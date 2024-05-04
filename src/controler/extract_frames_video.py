@@ -1,5 +1,12 @@
+import sys
+# Replace the path with the path to the root directory of the project in your desktop
+sys.path.append(r"E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection")
+from src.common.constans import *
+from src.common.configs import *
 import cv2
 import os
+
+
 
 def extract_frame(video_path, output_folder):
     # Create the output folder if it doesn't exist
@@ -20,6 +27,6 @@ def extract_frame(video_path, output_folder):
             cv2.imwrite(image_path, frame)
 
 if __name__ == "__main__":
-    video_path = "video2_RCNN.mp4"
-    output_folder = "VN_traffic_sign_vid_data/Video for R-CNN/frames"
+    video_path = VIDEO_RCNN
+    output_folder = OUTPUT_RCNN_FRAMES
     extract_frame(video_path, output_folder)
