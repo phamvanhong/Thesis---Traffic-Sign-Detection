@@ -59,8 +59,8 @@ class  Detection:
 
 if __name__ == "__main__":
     # Path to the video file
-    video_file = VIDEO_YOLO
+    video_file = r"data\video\test video\test_video.mp4"
     # Load the best weight of the YOLOv8 pre-trained model
-    model = YOLO_MODEL
+    model = r"notebook\yolo-training-model-for-video\weight\e64_b16_s720\best.pt"
     detection = Detection(model, video_file)
     detection.detect()
