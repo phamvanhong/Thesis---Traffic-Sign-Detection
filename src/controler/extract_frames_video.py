@@ -27,6 +27,6 @@ def extract_frame(video_path, output_folder):
             cv2.imwrite(image_path, frame)
 
 if __name__ == "__main__":
-    video_path = VIDEO_RCNN
-    output_folder = OUTPUT_RCNN_FRAMES
+    video_path = "testdata/merge.mp4"
+    output_folder = "testdata/frames"
     extract_frame(video_path, output_folder)

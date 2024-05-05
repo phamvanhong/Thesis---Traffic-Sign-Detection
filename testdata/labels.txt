@@ -1,0 +1,11 @@
+Giới hạn tốc độ: 50Km/h
+Giới hạn tốc độ: 60Km/h
+Giới hạn tốc độ: 80Km/h
+Cấm dừng - Cấm đỗ
+Cấm đi ngược chiều
+Cấm các phương tiện hoạt động trong khung giờ cố định
+Cấm xe máy
+Làn đường cho từng xe
+Đường hẹp
+Hướng phải đi vòng sang phải
+Khác
