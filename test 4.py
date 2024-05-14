@@ -1,7 +1,6 @@
 import os
-from PIL import Image, ImageEnhance, ImageFilter
+from PIL import Image
 import numpy as np
-
 
 class DataAugment:
     def __init__(self, input_folder: str, output_folder: str):
@@ -13,28 +12,27 @@ class DataAugment:
         """
         self.input_folder = input_folder
         self.output_folder = output_folder
-
-    def process_images(self, operation, *arg) -> None:
+    
+    def process_images(self, operation):
         """
         Process the images in the input folder with the specified operation
         Args:
             operation (function): The operation to apply on each image
-            *arg: Additional arguments to pass to the operation function
         """
         if not os.path.exists(self.output_folder):
             os.makedirs(self.output_folder)
-
+        
         for filename in os.listdir(self.input_folder):
             if filename.endswith('.jpg') or filename.endswith('.png'):
                 img_path = os.path.join(self.input_folder, filename)
-
+                
                 # Apply the operation to the image
-                processed_img = operation(img_path, *arg)
-
+                processed_img = operation(img_path)
+                
                 output_img_path = os.path.join(self.output_folder, filename)
                 processed_img.save(output_img_path)
-
-    def resize(self, img_path: str) -> Image.Image:
+    
+    def resize(self, img_path):
         """
         Resize the input image to a smaller size (640x640)
         Args:
@@ -44,8 +42,8 @@ class DataAugment:
         """
         img = Image.open(img_path)
         return img.resize((640, 640))
-
-    def add_noise(self, img_path: str) -> Image.Image:
+    
+    def add_noise(self, img_path):
         """
         Add noise to the input image
         Args:
@@ -54,7 +52,7 @@ class DataAugment:
             PIL.Image.Image: The image with added noise
         """
         img = Image.open(img_path)
-
+        
         # Convert the image to numpy array
         img_arr = np.array(img)
 
@@ -69,49 +67,9 @@ class DataAugment:
 
         # Convert the noisy image array back to an image
         return Image.fromarray(noisy_img_array)
-
-    def add_blur(self, img_path: str) -> Image.Image:
-        """
-        Add blur to the input image
-        Args:
-            img_path (str): The path to the input image
-        Returns:
-            PIL.Image.Image: The image with added blur
-        """
-        img = Image.open(img_path)
-        return img.filter(ImageFilter.GaussianBlur(radius=2))
-
-    def rotate(self, img_path: str) -> Image.Image:
-        """
-        Rotate the input image by 45 degrees
-        Args:
-            img_path (str): The path to the input image
-        Returns:
-            PIL.Image.Image: The rotated image
-        """
-        img = Image.open(img_path)
-        return img.rotate(45)
-
-    def change_contrast(self, img_path: str, factor: float) -> Image.Image:
-        """
-        Convert the input image to high contrast
-        Args:
-            img_path (str): The path to the input image
-            factor (float): The contrast value
-        Returns:
-            PIL.Image.Image: The image with high contrast
-        """
-        img = Image.open(img_path)
-        return ImageEnhance.Contrast(img).enhance(factor)
-
-    def modified_color(self, img_path: str, factor: float) -> Image.Image:
-        """
-        Modify the color of the input image
-        Args:
-            img_path (str): The path to the input image
-            factor (float): The color value
-        Returns:
-            PIL.Image.Image: The image with modified color
-        """
-        img = Image.open(img_path)
-        return ImageEnhance.Brightness(img).enhance(factor)
+        
+if __name__ == "__main__":
+    input_folder = r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images"
+    output_folder = r"test_resize_data"
+    data_augment = DataAugment(input_folder, output_folder)
+    data_augment.process_images(data_augment.add_noise)
