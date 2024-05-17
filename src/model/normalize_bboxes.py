@@ -1,14 +1,22 @@
-from chitra.image import Chitra
-import matplotlib.pyplot as plt
-import numpy as np
-import cv2
+import sys
+sys.path.append(r'E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection')
+from src.model.read_write import ReadWriteFile
+from src.common.constans import WRITE
+
 
 
 class AdjustBoundingBoxes:
-    def __init__(self, img_paths: list, annotation_paths: list, image_width, image_height):
+    def __init__(self, folder_path: str,  annotation_paths: list, image_width: int, image_height: int):
         """
-        Initialize the AdjustBoundingBoxes class with the image and annotation paths"""
-        self.img_paths = img_paths
+        Initialize the AdjustBoundingBoxes object
+        Args:
+            folder_path (str): The path to the folder
+            annotation_paths (list): The list of paths to the annotation files
+            image_width (int): The original width of the image
+            image_height (int): The original height of the image
+
+        """
+        self.folder_path = folder_path
         self.annotation_paths = annotation_paths
         self.image_width = image_width
         self.image_height = image_height
@@ -46,52 +54,71 @@ class AdjustBoundingBoxes:
 
         return [top_left_x, top_left_y, bottom_right_x, bottom_right_y]
 
-    def convert_bboxes_to_standard(self):
+    def calculate_ratio(self) -> float:
+        """
+        Calculate the ratio of the width and height after resizing the image to 640x640
+
+        Returns:
+            float: The ratio of the width and height
+        """
+        width_scale = 640 / image_width
+        height_scale = 640 / image_height
+        return width_scale, height_scale
+
+    def resize_bboxes_adjust(self, lines: list) -> list:
+        """
+        Save the adjust annotations to a list
+        Args:
+            lines (list): The list of lines in the annotation file
+        Returns:
+            list: The list of annotations
+        """
+        annotations = []
+        for line in lines:
+            elements = line.strip().split()
+            label = elements[0]
+            yolo_annotation = list(map(float, elements[1:]))
+            center_x, center_y, box_width, box_height = self.calculate_center_and_size(
+                yolo_annotation)
+            
+            standard_annotation = self.calculate_corners(
+                center_x, center_y, box_width, box_height)
+            
+            width_scale, height_scale = self.calculate_ratio()
+            
+            resize_bboxes = [int(standard_annotation[0]*width_scale),
+                             int(standard_annotation[1]*height_scale),
+                             int(standard_annotation[2]*width_scale),
+                             int(standard_annotation[3]*height_scale)]
+            annotations.append([label, resize_bboxes])
+        return annotations
+
+    def write_new_bboxes_to_annotations_file(self):
         """
         Convert the bounding boxes to standard format"""
-        bboxes = []
-        labels = []
-
         for annotation_file_path in self.annotation_paths:
-            with open(annotation_file_path, 'r') as file:
-                lines = file.readlines()
+            lines = ReadWriteFile(annotation_file_path,
+                                  self.folder_path).read_lines_in_file()
+            annotations = self.resize_bboxes_adjust(lines)
+            new_file_path = ReadWriteFile(
+                annotation_file_path, self.folder_path).create_new_file_path()
+            with open(new_file_path, WRITE) as file:
+                for annotation in annotations:
+                    label = annotation[0]
+                    center_x, center_y, box_width, box_height = annotation[1]
+                    file.write(f"{label} {center_x} {center_y} {
+                               box_width} {box_height}\n")
 
-            for line in lines:
-                elements = line.strip().split()
-                label = elements[0]
-                yolo_annotation = list(map(float, elements[1:]))
-
-                center_x, center_y, box_width, box_height = self.calculate_center_and_size(
-                    yolo_annotation)
-                standard_annotation = self.calculate_corners(
-                    center_x, center_y, box_width, box_height)
-
-                bboxes.append(standard_annotation)
-                labels.append(label)
-
-        return bboxes, labels
-    
-    
-    def adjust_bboxes_resize_img(self):
-        """
-        Adjust the bounding boxes of resize the images"""
-        bboxes, labels = self.convert_bboxes_to_standard()
-
-        for img_path in self.img_paths:
-            image = Chitra(img_path, bboxes, labels)
-            image.resize_image_with_bbox((640, 640))
-            print(bboxes)
-            print(labels)
-    
-        
 
 if __name__ == "__main__":
-    img_paths = [r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images\image_548.jpg',
-                 r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images\image_524.jpg"]
-    annotation_paths = [r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_548.txt',
-                        r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_524.txt"]
+
+    annotation_paths = [r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\train\labels\image_484.txt',
+                        r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_470.txt",
+                        r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_380.txt"]
+    folder_path = "tessttxt"
     image_width = 1280
     image_height = 720
 
-    adjust_bboxes = AdjustBoundingBoxes(img_paths, annotation_paths, image_width, image_height)
-    adjust_bboxes.adjust_bboxes_resize_img()
+    adjust_bboxes = AdjustBoundingBoxes(
+        folder_path, annotation_paths, image_width, image_height)
+    adjust_bboxes.write_new_bboxes_to_annotations_file()

@@ -74,13 +74,13 @@ class AdjustBoundingBoxes:
             annotations.append([label, resize_bboxes])
         return annotations
     
-    def convert_bboxes_to_standard(self):
+    def write_new_bboxes_to_annotations_file(self):
         """
         Convert the bounding boxes to standard format"""
         for annotation_file_path in self.annotation_paths:
             lines = ReadWriteFile(annotation_file_path, self.folder_path).read_lines_in_file()
             annotations = self.resize_bboxes_adjust(lines)
-            new_file_path = ReadWriteFile(annotation_file_path, self.folder_path).write_to_file_into_folder()
+            new_file_path = ReadWriteFile(annotation_file_path, self.folder_path).create_new_file_path()
             with open(new_file_path, 'w') as file:
                 for annotation in annotations:
                     label = annotation[0]
@@ -98,4 +98,4 @@ if __name__ == "__main__":
     image_height = 720
 
     adjust_bboxes = AdjustBoundingBoxes(folder_path, annotation_paths, image_width, image_height)
-    adjust_bboxes.convert_bboxes_to_standard()
+    adjust_bboxes.write_new_bboxes_to_annotations_file()
