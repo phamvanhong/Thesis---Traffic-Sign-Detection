@@ -2,10 +2,10 @@ from chitra.image import Chitra
 import matplotlib.pyplot as plt
 
 # Đường dẫn đến file annotation
-annotation_file_path = r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\train\labels\image_484.txt'
+annotation_file_path = r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_524.txt'
 
 # Đường dẫn đến ảnh
-img_path = r'data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/train/images/image_484.jpg'
+img_path = r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images\image_524.jpg'
 
 # Kích thước ảnh
 image_width = 1280
@@ -50,7 +50,7 @@ for line in lines:
 image = Chitra(img_path, bboxes, labels)
 
 # Thay đổi kích thước ảnh cùng với bounding box
-image.resize_image_with_bbox((640, 640))
+#image.resize_image_with_bbox((640, 640))
 
 # In bounding box đã thay đổi kích thước
 print('Rescaled bboxes:', image.bboxes)

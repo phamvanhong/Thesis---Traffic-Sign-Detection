@@ -94,12 +94,12 @@ class DataAugment:
 
     def change_contrast(self, img_path: str, factor: float) -> Image.Image:
         """
-        Convert the input image to high contrast
+        Convert the input image to hight and low contrast
         Args:
             img_path (str): The path to the input image
             factor (float): The contrast value
         Returns:
-            PIL.Image.Image: The image with high contrast
+            PIL.Image.Image: The image with high and low contrast
         """
         img = Image.open(img_path)
         return ImageEnhance.Contrast(img).enhance(factor)

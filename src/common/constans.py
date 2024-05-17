@@ -3,3 +3,5 @@ Q = "q"
 TRAIN = "train"
 TEST = "test"
 VALID = "valid"
+READ = 'r'
+WRITE = 'w'

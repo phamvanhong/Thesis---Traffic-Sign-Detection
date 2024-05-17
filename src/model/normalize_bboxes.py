@@ -1,5 +1,7 @@
 from chitra.image import Chitra
 import matplotlib.pyplot as plt
+import numpy as np
+import cv2
 
 
 class AdjustBoundingBoxes:
@@ -68,7 +70,8 @@ class AdjustBoundingBoxes:
                 labels.append(label)
 
         return bboxes, labels
-
+    
+    
     def adjust_bboxes_resize_img(self):
         """
         Adjust the bounding boxes of resize the images"""
@@ -77,11 +80,16 @@ class AdjustBoundingBoxes:
         for img_path in self.img_paths:
             image = Chitra(img_path, bboxes, labels)
             image.resize_image_with_bbox((640, 640))
-            print('Rescaled bboxes:', image.bboxes)
+            print(bboxes)
+            print(labels)
+    
+        
 
 if __name__ == "__main__":
-    img_paths = [r'data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/train/images/image_484.jpg']
-    annotation_paths = [r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\train\labels\image_484.txt']
+    img_paths = [r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images\image_548.jpg',
+                 r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images\image_524.jpg"]
+    annotation_paths = [r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_548.txt',
+                        r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_524.txt"]
     image_width = 1280
     image_height = 720
 
