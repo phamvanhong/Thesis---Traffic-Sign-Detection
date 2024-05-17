@@ -78,24 +78,27 @@ class AdjustBoundingBoxes:
             elements = line.strip().split()
             label = elements[0]
             yolo_annotation = list(map(float, elements[1:]))
+
+            # Calculate the center and size of the bounding box
             center_x, center_y, box_width, box_height = self.calculate_center_and_size(
                 yolo_annotation)
             
+            # Calculate the corners of the bounding box
             standard_annotation = self.calculate_corners(
                 center_x, center_y, box_width, box_height)
             
             width_scale, height_scale = self.calculate_ratio()
             
-            resize_bboxes = [int(standard_annotation[0]*width_scale),
+            resized_bboxes = [int(standard_annotation[0]*width_scale),
                              int(standard_annotation[1]*height_scale),
                              int(standard_annotation[2]*width_scale),
                              int(standard_annotation[3]*height_scale)]
-            annotations.append([label, resize_bboxes])
+            annotations.append([label, resized_bboxes])
         return annotations
 
     def write_new_bboxes_to_annotations_file(self):
         """
-        Convert the bounding boxes to standard format"""
+        Write the new bounding boxes to the annotations file"""
         for annotation_file_path in self.annotation_paths:
             lines = ReadWriteFile(annotation_file_path,
                                   self.folder_path).read_lines_in_file()

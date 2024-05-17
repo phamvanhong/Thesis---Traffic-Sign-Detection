@@ -1,6 +1,7 @@
 from src.common.constans import READ, WRITE
 import os
 
+
 class ReadWriteFile:
     def __init__(self, file_path, folder_path) -> None:
         """
@@ -20,20 +21,20 @@ class ReadWriteFile:
             lines = file.readlines()
         return lines
 
-    def write_to_file(self, data):
+    def write_to_file(self, data) -> None:
         """
         Write data to the file
         """
         with open(self.file_path, WRITE) as file:
             file.write(data)
-    
-    def create_new_file_path(self) -> None:
+
+    def create_new_file_path(self):
         """
         Create a new file path in the folder path
         """
         if not os.path.exists(self.folder_path):
             os.makedirs(self.folder_path)
-        
+
         base_name = os.path.basename(self.file_path)
         new_file_path = os.path.join(self.folder_path, base_name)
         return new_file_path

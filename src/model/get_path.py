@@ -10,7 +10,7 @@ class FilePathCollector:
         self.annotation_folder = annotation_folder
         self.img_paths = []
         self.annotation_paths = []
-    
+
     def numerical_sort(self, value) -> list:
         """
         Extract numbers from the file name and convert to integer
@@ -23,7 +23,6 @@ class FilePathCollector:
         parts = numbers.split(value)
         parts[1::2] = map(int, parts[1::2])
         return parts
-
 
     def get_img_path(self) -> list:
         """
