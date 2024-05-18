@@ -5,3 +5,5 @@ TEST = "test"
 VALID = "valid"
 READ = 'r'
 WRITE = 'w'
+JPG = '.jpg'
+PNG = '.png'
