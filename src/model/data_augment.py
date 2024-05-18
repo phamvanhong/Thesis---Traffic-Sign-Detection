@@ -82,14 +82,14 @@ class DataAugment:
         img = Image.open(img_path)
         return img.filter(ImageFilter.GaussianBlur(radius=2))
 
-    def rotate(self, img_path: str, angle: float):
+    def rotate(self, img_path: str, angle: float) -> Image.Image:
         """
         Rotates an image (angle in degrees) and expands image to avoid cropping
         Args:
             img_path (str): The path to the input image
             angle (float): The angle to rotate the image
         Returns:
-            numpy.ndarray: The rotated image
+            PIL.Image.Image: The rotated image
         """
         image = cv2.imread(img_path)
         height, width = image.shape[:2]  # image shape has 3 dimensions
