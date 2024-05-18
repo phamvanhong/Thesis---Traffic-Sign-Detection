@@ -7,8 +7,8 @@ class ReadWriteFile:
         """
         Initialize the ReadWriteFile class with the file path and folder path
         Args:
-            file_path (str): The path to the file
-            folder_path (str): The path to the folder
+            file_path (str): The path to the file want to read or write
+            folder_path (str): The path to the folder want to create a new file
         """
         self.file_path = file_path
         self.folder_path = folder_path

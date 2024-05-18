@@ -1,9 +1,10 @@
-import sys
-sys.path.append(r'E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection')
-import cv2
-import numpy as np
+from src.model.resize_bboxes import AdjustBoundingBoxes
 from src.model.read_write import ReadWriteFile
-
+import numpy as np
+import cv2
+import sys
+sys.path.append(
+    r'E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection')
 
 
 class RotateBoundingBoxes:
@@ -15,7 +16,7 @@ class RotateBoundingBoxes:
         """
         Initialize the RotateBoundingBoxes object
         Args:
-            folder_path (str): The path to the folder include anntation files
+            folder_path (str): The path to the folder to create new anntation files
             annotation_paths (list): The list of paths to the annotation files
             rotated_img_paths (list): The list of paths to the rotated image files
             origin_img_paths (list): The list of paths to the original image files
@@ -51,7 +52,7 @@ class RotateBoundingBoxes:
         """
         height, width = img.shape[:2]
         return height, width
-    
+
     def get_size_all_images(self, img_paths: list) -> list:
         """
         Get the size of all images
@@ -84,10 +85,14 @@ class RotateBoundingBoxes:
         """
         origin_height, origin_width = self.get_size(
             self.open_image(self.origin_img_paths))
-        upper_left_corner_shift = (center_x - origin_width / 2, -origin_height / 2 + center_y)
-        upper_right_corner_shift = (box_width - origin_width / 2, -origin_height / 2 + center_y)
-        lower_left_corner_shift = (center_x - origin_width / 2, -origin_height / 2 + box_height)
-        lower_right_corner_shift = (box_width - origin_width / 2, -origin_height / 2 + box_height)
+        upper_left_corner_shift = (
+            center_x - origin_width / 2, -origin_height / 2 + center_y)
+        upper_right_corner_shift = (
+            box_width - origin_width / 2, -origin_height / 2 + center_y)
+        lower_left_corner_shift = (
+            center_x - origin_width / 2, -origin_height / 2 + box_height)
+        lower_right_corner_shift = (
+            box_width - origin_width / 2, -origin_height / 2 + box_height)
         return (upper_left_corner_shift, upper_right_corner_shift, lower_left_corner_shift, lower_right_corner_shift)
 
     def rotate_coners(self, corners_shift: list) -> list:
@@ -100,31 +105,44 @@ class RotateBoundingBoxes:
         """
         new_lower_right_corner = [-1, -1]
         new_upper_left_corner = []
-        rotate_width, rotate_height = self.get_size(self.open_image(self.rotated_img_paths))
+        rotate_width, rotate_height = self.get_size(
+            self.open_image(self.rotated_img_paths))
         for i in (upper_left_corner_shift, upper_right_corner_shift, lower_left_corner_shift,
-                          lower_right_corner_shift):
-                    new_coords = np.matmul(self.rot_matrix, np.array((i[0], -i[1])))
-                    x_prime, y_prime = new_width / 2 + new_coords[0], new_height / 2 - new_coords[1]
-                    if new_lower_right_corner[0] < x_prime:
-                        new_lower_right_corner[0] = x_prime
-                    if new_lower_right_corner[1] < y_prime:
-                        new_lower_right_corner[1] = y_prime
+                  lower_right_corner_shift):
+            new_coords = np.matmul(self.rot_matrix, np.array((i[0], -i[1])))
+            x_prime, y_prime = rotate_width / 2 + \
+                new_coords[0], rotate_height / 2 - new_coords[1]
+            if new_lower_right_corner[0] < x_prime:
+                new_lower_right_corner[0] = x_prime
+            if new_lower_right_corner[1] < y_prime:
+                new_lower_right_corner[1] = y_prime
 
-                    if len(new_upper_left_corner) > 0:
-                        if new_upper_left_corner[0] > x_prime:
-                            new_upper_left_corner[0] = x_prime
-                        if new_upper_left_corner[1] > y_prime:
-                            new_upper_left_corner[1] = y_prime
-                    else:
-                        new_upper_left_corner.append(x_prime)
-                        new_upper_left_corner.append(y_prime)
+            if len(new_upper_left_corner) > 0:
+                if new_upper_left_corner[0] > x_prime:
+                    new_upper_left_corner[0] = x_prime
+                if new_upper_left_corner[1] > y_prime:
+                    new_upper_left_corner[1] = y_prime
+            else:
+                new_upper_left_corner.append(x_prime)
+                new_upper_left_corner.append(y_prime)
+
     def rotate_bboxes(self):
         """
         Rotate the bounding boxes
         """
         img_rotate_size = self.get_size_all_images(self.rotated_img_paths)
         img_origin_size = self.get_size_all_images(self.origin_img_paths)
-        
-
-
-         
+        adjust_bboxes = AdjustBoundingBoxes(
+            self.folder_path, self.annotation_paths, img_origin_size[0][1], img_origin_size[0][0]
+        )
+        for annotation_file_path in self.annotation_paths:
+            lines = ReadWriteFile(annotation_file_path).read_lines_in_file()
+            for line in lines:
+                bbox = line.strip('\n').split(' ')
+                yolo_annotation = list(map(float, bbox[1:]))
+                if len(bbox) > 1:
+                    (center_x, center_y, box_width, box_height) = adjust_bboxes.calculate_center_and_size(
+                        yolo_annotation)
+                    (upper_left_corner_shift, upper_right_corner_shift, lower_left_corner_shift,
+                     lower_right_corner_shift) = self.calculate_coners(center_x, center_y, box_width, box_height)
+                    

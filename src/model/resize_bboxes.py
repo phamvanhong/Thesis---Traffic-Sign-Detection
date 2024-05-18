@@ -10,7 +10,7 @@ class AdjustBoundingBoxes:
         """
         Initialize the AdjustBoundingBoxes object
         Args:
-            folder_path (str): The path to the folder include anntation files
+            folder_path (str): The path to the folder include new anntation files
             annotation_paths (list): The list of paths to the annotation files
             image_width (int): The original width of the image
             image_height (int): The original height of the image
@@ -100,8 +100,7 @@ class AdjustBoundingBoxes:
         """
         Write the new bounding boxes to the annotations file"""
         for annotation_file_path in self.annotation_paths:
-            lines = ReadWriteFile(annotation_file_path,
-                                  self.folder_path).read_lines_in_file()
+            lines = ReadWriteFile(annotation_file_path, self.folder_path).read_lines_in_file()
             annotations = self.resize_bboxes_adjust(lines)
             new_file_path = ReadWriteFile(
                 annotation_file_path, self.folder_path).create_new_file_path()
