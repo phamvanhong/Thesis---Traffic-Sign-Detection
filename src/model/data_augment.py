@@ -1,6 +1,7 @@
 import os
 from PIL import Image, ImageEnhance, ImageFilter
 import numpy as np
+import cv2
 
 
 class DataAugment:
@@ -81,16 +82,37 @@ class DataAugment:
         img = Image.open(img_path)
         return img.filter(ImageFilter.GaussianBlur(radius=2))
 
-    def rotate(self, img_path: str) -> Image.Image:
+    def rotate(self, img_path: str, angle: float):
         """
-        Rotate the input image by 45 degrees
+        Rotates an image (angle in degrees) and expands image to avoid cropping
         Args:
             img_path (str): The path to the input image
+            angle (float): The angle to rotate the image
         Returns:
-            PIL.Image.Image: The rotated image
+            numpy.ndarray: The rotated image
         """
-        img = Image.open(img_path)
-        return img.rotate(45)
+        image = cv2.imread(img_path)
+        height, width = image.shape[:2]  # image shape has 3 dimensions
+        image_center = (width / 2, height / 2)  # getRotationMatrix2D needs coordinates in reverse order (width, height) compared to shape
+
+        rotation_mat = cv2.getRotationMatrix2D(image_center, angle, 1.)
+
+        # rotation calculates the cos and sin, taking absolutes of those.
+        abs_cos = abs(rotation_mat[0, 0])
+        abs_sin = abs(rotation_mat[0, 1])
+
+        # find the new width and height bounds
+        bound_w = int(height * abs_sin + width * abs_cos)
+        bound_h = int(height * abs_cos + width * abs_sin)
+
+        # subtract old image center (bringing image back to origin) and adding the new image center coordinates
+        rotation_mat[0, 2] += bound_w / 2 - image_center[0]
+        rotation_mat[1, 2] += bound_h / 2 - image_center[1]
+
+        # rotate image with the new bounds and translated rotation matrix
+        rotated_mat = cv2.warpAffine(image, rotation_mat, (bound_w, bound_h))
+        return Image.fromarray(cv2.cvtColor(rotated_mat, cv2.COLOR_BGR2RGB))
+
 
     def change_contrast(self, img_path: str, factor: float) -> Image.Image:
         """
@@ -115,3 +137,8 @@ class DataAugment:
         """
         img = Image.open(img_path)
         return ImageEnhance.Brightness(img).enhance(factor)
+
+if __name__ == "__main__":
+    data_augment = DataAugment(r"testdata\frames", r"tesst_image")
+    #data_augment.process_images(data_augment.resize)
+    data_augment.process_images(data_augment.rotate, 45)

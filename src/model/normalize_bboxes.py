@@ -10,7 +10,7 @@ class AdjustBoundingBoxes:
         """
         Initialize the AdjustBoundingBoxes object
         Args:
-            folder_path (str): The path to the folder
+            folder_path (str): The path to the folder include anntation files
             annotation_paths (list): The list of paths to the annotation files
             image_width (int): The original width of the image
             image_height (int): The original height of the image
@@ -115,9 +115,7 @@ class AdjustBoundingBoxes:
 
 if __name__ == "__main__":
 
-    annotation_paths = [r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\train\labels\image_484.txt',
-                        r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_470.txt",
-                        r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_380.txt"]
+    annotation_paths = [r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels\image_548.txt"]
     folder_path = "tessttxt"
     image_width = 1280
     image_height = 720
