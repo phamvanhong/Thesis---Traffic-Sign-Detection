@@ -2,32 +2,34 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Your original YOLO annotation
-bbox = [1044.3558400000002,222.11568, 103.9936 ,155.76912000000002]
+def rotate_image(image_path: str, angle: float) -> np.ndarray:
+        """
+        Rotates an image (angle in degrees) and expands image to avoid cropping
+        """
+        image = cv2.imread(image_path)
+        height, width = image.shape[:2]  # image shape has 3 dimensions
+        image_center = (width / 2,
+                        height / 2)  # getRotationMatrix2D needs coordinates in reverse order (width, height) compared to shape
 
+        rotation_mat = cv2.getRotationMatrix2D(image_center, angle, 1.)
+
+        # rotation calculates the cos and sin, taking absolutes of those.
+        abs_cos = abs(rotation_mat[0, 0])
+        abs_sin = abs(rotation_mat[0, 1])
+
+        # find the new width and height bounds
+        bound_w = int(height * abs_sin + width * abs_cos)
+        bound_h = int(height * abs_cos + width * abs_sin)
+
+        # subtract old image center (bringing image back to origin) and adding the new image center coordinates
+        rotation_mat[0, 2] += bound_w / 2 - image_center[0]
+        rotation_mat[1, 2] += bound_h / 2 - image_center[1]
+
+        # rotate image with the new bounds and translated rotation matrix
+        rotated_mat = cv2.warpAffine(image, rotation_mat, (bound_w, bound_h))
+        return rotated_mat
 # Load your image
-image = cv2.imread(r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images\image_548.jpg")
 
-# Calculate the actual x, y, w, h from YOLO annotation
-h, w = image.shape[:2]
-x = int(bbox[0])
-y = int(bbox[1])
-bw = int(bbox[2])
-bh = int(bbox[3])
-
-# Rotate the image
-M = cv2.getRotationMatrix2D((w/2, h/2), 45, 1.0)
-rotated_image = cv2.warpAffine(image, M, (w, h))
-
-# Adjust the annotation for the rotated image
-center = np.array([x + bw / 2, y + bh / 2, 1])
-rotated_center = M @ center
-rx, ry = rotated_center[:2]
-rw, rh = bw, bh  # Assuming the bounding box dimensions don't change after rotation
-
-# Draw the adjusted bounding box on the rotated image
-cv2.rectangle(rotated_image, (int(rx - rw / 2), int(ry - rh / 2)), (int(rx + rw / 2), int(ry + rh / 2)), (0, 255, 0), 2)
-
-# Display the rotated image with the adjusted bounding box
-plt.imshow(cv2.cvtColor(rotated_image, cv2.COLOR_BGR2RGB))
-plt.show()
+image = cv2.imread(r"rotated_image2.jpg")
+w, h = image.shape[:2]
+print(w, h)

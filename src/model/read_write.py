@@ -3,7 +3,7 @@ import os
 
 
 class ReadWriteFile:
-    def __init__(self, file_path, folder_path) -> None:
+    def __init__(self, file_path: str, folder_path: str) -> None:
         """
         Initialize the ReadWriteFile class with the file path and folder path
         Args:

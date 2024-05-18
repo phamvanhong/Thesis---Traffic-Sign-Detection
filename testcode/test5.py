@@ -40,7 +40,7 @@ def rotate_(image_path):
     rotated_mat = cv2.warpAffine(image, rotation_mat, (bound_w, bound_h))
     return rotated_mat
 
-image_path = r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images\image_524.jpg"
+image_path = r"testdata\frames\image19.jpg"
 image = rotate(image_path)
 image.save("rotated_image1.jpg")
 image2 = rotate_(image_path)
