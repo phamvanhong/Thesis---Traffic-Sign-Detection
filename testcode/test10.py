@@ -1,8 +1,9 @@
 import sys
 sys.path.append(r'E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection')
 from src.model.read_write import ReadWriteFile
+from src.model.get_path import FilePathCollector
 from src.common.constans import WRITE
-import pybboxes as pbx
+
 
 
 class AdjustBoundingBoxes:
@@ -74,9 +75,13 @@ class AdjustBoundingBoxes:
             list: The bounding box in YOLO format
         """
         # Calculate the center and size of the bounding box
-        center_x, center_y, width, height = pbx.convert_bbox(bbox, from_type="voc", to_type="yolo", image_size=(640, 640))
+        center_x = bbox[0] / self.image_width
+        center_y = bbox[1] / self.image_height
+        width = bbox[2] / self.image_width
+        height = bbox[3] / self.image_height
 
-        return center_x, center_y, width, height
+        return [center_x, center_y, width, height]
+
 
     def resize_bboxes_adjust(self, lines: list) -> list:
         """
@@ -106,9 +111,11 @@ class AdjustBoundingBoxes:
                              int(standard_annotation[1]*height_scale),
                              int(standard_annotation[2]*width_scale),
                              int(standard_annotation[3]*height_scale)]
+            
             normalized_bboxes = self.convert_to_decimal_format(resized_bboxes)
             annotations.append([label, normalized_bboxes])
         return annotations
+
 
     def write_new_bboxes_to_annotations_file(self):
         """
@@ -124,3 +131,12 @@ class AdjustBoundingBoxes:
                     center_x, center_y, box_width, box_height = annotation[1]
                     file.write(f"{label} {center_x} {center_y} {
                                box_width} {box_height}\n")
+
+if __name__ == "__main__":
+    folder_path = "test"
+    img_folder = r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\images"
+    annotation_folder = r"data\VN_traffic_sign_frames_video\Frames-Video for YOLO\Vietnam_video_traffic_sign\test\labels"
+    annotation_paths = FilePathCollector(img_folder, annotation_folder).get_annotation_path()
+    
+    adjust = AdjustBoundingBoxes(folder_path, annotation_paths, 1280, 720)
+    adjust.write_new_bboxes_to_annotations_file()

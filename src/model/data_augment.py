@@ -80,7 +80,7 @@ class DataAugment:
             PIL.Image.Image: The image with added blur
         """
         img = Image.open(img_path)
-        return img.filter(ImageFilter.GaussianBlur(radius=2))
+        return img.filter(ImageFilter.GaussianBlur(radius=1))
 
     def rotate(self, img_path: str, angle: float) -> Image.Image:
         """
@@ -137,8 +137,3 @@ class DataAugment:
         """
         img = Image.open(img_path)
         return ImageEnhance.Brightness(img).enhance(factor)
-
-if __name__ == "__main__":
-    data_augment = DataAugment(r"testdata\frames", r"tesst_image")
-    #data_augment.process_images(data_augment.resize)
-    data_augment.process_images(data_augment.rotate, 45)
