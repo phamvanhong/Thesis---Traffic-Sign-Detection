@@ -6,9 +6,9 @@ from src.model.data_augment import DataAugment
 
 
 def main():
-    train_data_folder = "data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/train/images"
-    test_data_folder = "data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/test/images"
-    valid_data_folder = "data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/valid/images"
+    train_data_folder = r"data\test_new_dataset\train\images"
+    test_data_folder = r"data\test_new_dataset\test\images"
+    valid_data_folder = r"data\test_new_dataset\valid\images"
 
     resize = r"augment_image\resize"
     # blur = r"augment_image\blur"
@@ -19,7 +19,7 @@ def main():
     # brightness = r"augment_image\brightness"
 
     # Generate data
-    resize_aug = DataAugment(valid_data_folder, resize)
+    resize_aug = DataAugment(valid_data_folder, train_data_folder)
     resize_aug.process_images(resize_aug.resize)
 
     # blur_aug = DataAugment(resize, blur)

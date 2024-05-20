@@ -1,8 +1,6 @@
-import os
+import cv2
 
-def count_all_files(directory):
-    return sum([len(files) for r, d, files in os.walk(directory)])
+img = cv2.imread(r'data\VN_traffic_sign_frames_video\Frames-Video for YOLO\frames\image537.jpg', cv2.IMREAD_UNCHANGED)
 
-# Replace 'your_directory_path' with the path to the directory you want to count files in
-directory = r'split\train\images'
-print(f'Total files in directory (including subdirectories): {count_all_files(directory)}')
+# Print the original image size
+print('Original Dimensions : ', img.shape)
