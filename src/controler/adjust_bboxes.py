@@ -8,9 +8,9 @@ from src.model.get_path import FilePathCollector
 def main():
 
     # set up 
-    train_annotation_folder = "data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/train/labels"
-    test_annotation_folder = "data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/test/labels"
-    valid_annotation_folder = "data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/valid/labels"
+    train_annotation_folder = r"data\test_new_dataset\train\labels"
+    test_annotation_folder = r"data\test_new_dataset\test\labels"
+    valid_annotation_folder = r"data\test_new_dataset\valid\labels"
     image_folder = "data/VN_traffic_sign_frames_video/Frames-Video for YOLO/Vietnam_video_traffic_sign/train/images"
     # get annotation file paths
     annotations = FilePathCollector(image_folder, valid_annotation_folder).get_annotation_path()

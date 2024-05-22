@@ -1,34 +1,51 @@
 import os
-import matplotlib.pyplot as plt
-# Đường dẫn đến thư mục chứa các file annotation
-folder_path = r'data\test_new_dataset\train\labels'
+import cv2
+import numpy as np
+import random
 
-# Đường dẫn đến file labels.txt
-labels_file_path = r'data\test_new_dataset\labels.txt'
+# Đường dẫn đến thư mục chứa hình ảnh và annotation
+image_folder = r'split\train\images'
+annotation_folder = r'split\train\labels'
 
-# Đọc file labels.txt và lưu vào list
-with open(labels_file_path, 'r', encoding='utf-8') as f:
-    labels = f.read().splitlines()
+# Đường dẫn đến thư mục mới để lưu hình ảnh đã crop
+new_image_folder = 'new_image'
 
+# Số lượng crop tùy chỉnh
+num_crops = 300
 
-# Khởi tạo dict để đếm số lượng mỗi label
-label_counts = {label: 0 for label in labels}
+# Tạo thư mục mới nếu chúng chưa tồn tại
+os.makedirs(new_image_folder, exist_ok=True)
 
-# Duyệt qua tất cả các file trong thư mục
-for filename in os.listdir(folder_path):
-    if filename.endswith('.txt'):  # Kiểm tra nếu là file .txt
-        with open(os.path.join(folder_path, filename), 'r') as f:
-            for line in f:
-                label_index = int(line.split()[0])  # Lấy index của label từ dòng đầu tiên
-                label = labels[label_index]  # Tìm label tương ứng trong file labels.txt
-                label_counts[label] += 1  # Tăng số lượng của label này lên 1
+# Duyệt qua tất cả các hình ảnh trong thư mục
+for filename in os.listdir(image_folder):
+    if filename.endswith('.jpg'):  # Kiểm tra nếu là file .jpg
+        # Đọc hình ảnh
+        image = cv2.imread(os.path.join(image_folder, filename))
 
-labels = list(label_counts.keys())
-counts = list(label_counts.values())
+        # Đọc file annotation tương ứng
+        with open(os.path.join(annotation_folder, filename.replace('.jpg', '.txt')), 'r') as f:
+            annotations = [line.strip().split() for line in f]
 
-# Tạo biểu đồ cột
-plt.figure(figsize=(10, 6))  # Tạo figure với kích thước phù hợp
-plt.barh(labels, counts, color='skyblue')  # Vẽ biểu đồ cột ngang
-plt.xlabel('Số lượng')  # Đặt tên cho trục x
-plt.title('Số lượng các loại biển báo')  # Đặt tiêu đề cho biểu đồ
-plt.show()  # 
+        # Chuyển đổi annotations thành dạng phù hợp cho Albumentations
+        bboxes = [list(map(float, ann[1:])) for ann in annotations]
+        labels = [int(ann[0]) for ann in annotations]
+
+        # Duyệt qua tất cả các bounding box
+        for bbox, label in zip(bboxes, labels):
+            if label == 0:  # Kiểm tra nếu label là 0
+                x_center, y_center, width, height = bbox
+
+                # Tính toạ độ của bounding box
+                x_min = int((x_center - width / 2) * image.shape[1])
+                x_max = int((x_center + width / 2) * image.shape[1])
+                y_min = int((y_center - height / 2) * image.shape[0])
+                y_max = int((y_center + height / 2) * image.shape[0])
+
+                # Crop hình ảnh
+                cropped_image = image[y_min:y_max, x_min:x_max]
+
+                # Thay đổi kích thước hình ảnh thành 640x640
+                resized_image = cv2.resize(cropped_image, (640, 640))
+
+                # Lưu hình ảnh mới
+                cv2.imwrite(os.path.join(new_image_folder, f"{filename.replace('.jpg', '')}_crop_{random.randint(0, num_crops)}.jpg"), resized_image)

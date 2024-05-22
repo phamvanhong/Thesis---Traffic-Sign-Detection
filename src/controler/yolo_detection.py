@@ -61,6 +61,6 @@ if __name__ == "__main__":
     # Path to the video file
     video_file = r"data\video\test video\test_video.mp4"
     # Load the best weight of the YOLOv8 pre-trained model
-    model = r"F:\Download\best (2).pt"
+    model = r"F:\Download\best.pt"
     detection = Detection(model, video_file)
     detection.detect()

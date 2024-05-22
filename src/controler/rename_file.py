@@ -14,7 +14,7 @@ def rename_files_in_folder(folder_path: str, file_name: str, new_character: str)
             os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
 
 def main():
-    #resize = r"augment_image\resize"
+    # resize = r"augment_image\resize"
     # blur = r"augment_image\blur"
     # noise = r"augment_image\noise"
     # high_contrast = r"augment_image\high_contrast"

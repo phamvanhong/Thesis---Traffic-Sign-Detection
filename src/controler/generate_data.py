@@ -11,15 +11,15 @@ def main():
     valid_data_folder = r"data\test_new_dataset\valid\images"
 
     resize = r"augment_image\resize"
-    # blur = r"augment_image\blur"
-    # noise = r"augment_image\noise"
-    # high_contrast = r"augment_image\high_contrast"
-    # low_contrast = r"augment_image\low_contrast"
-    # darkness = r"augment_image\darkness"
-    # brightness = r"augment_image\brightness"
+    blur = r"augment_image\blur"
+    noise = r"augment_image\noise"
+    high_contrast = r"augment_image\high_contrast"
+    low_contrast = r"augment_image\low_contrast"
+    darkness = r"augment_image\darkness"
+    brightness = r"augment_image\brightness"
 
     # Generate data
-    resize_aug = DataAugment(valid_data_folder, train_data_folder)
+    resize_aug = DataAugment(valid_data_folder, resize)
     resize_aug.process_images(resize_aug.resize)
 
     # blur_aug = DataAugment(resize, blur)

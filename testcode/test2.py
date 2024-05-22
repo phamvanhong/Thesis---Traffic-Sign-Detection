@@ -1,41 +1,38 @@
 import os
-import cv2
-import numpy as np
-from albumentations import Compose, Resize, Rotate
-from albumentations.pytorch.transforms import ToTensorV2
+import shutil
 
-# Đường dẫn đến thư mục chứa hình ảnh và annotation
-image_folder = 'path_to_your_image_folder'
-annotation_folder = 'path_to_your_annotation_folder'
+def merge_folders(source_folders, destination_folder):
+    """
+    Hàm này gộp tất cả các file từ danh sách thư mục nguồn vào thư mục đích.
 
-# Khởi tạo biến đổi
-transform = Compose([
-    Resize(640, 640),  # Thay đổi kích thước hình ảnh
-    Rotate(limit=45),  # Quay hình ảnh 45 độ
-    ToTensorV2()  # Chuyển hình ảnh thành tensor
-])
+    :param source_folders: Danh sách các thư mục nguồn.
+    :param destination_folder: Thư mục đích.
+    """
+    # Tạo thư mục đích nếu nó không tồn tại
+    os.makedirs(destination_folder, exist_ok=True)
 
-# Duyệt qua tất cả các hình ảnh trong thư mục
-for filename in os.listdir(image_folder):
-    if filename.endswith('.jpg'):  # Kiểm tra nếu là file .jpg
-        # Đọc hình ảnh
-        image = cv2.imread(os.path.join(image_folder, filename))
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    for folder in source_folders:
+        for filename in os.listdir(folder):
+            source_file = os.path.join(folder, filename)
+            destination_file = os.path.join(destination_folder, filename)
 
-        # Đọc file annotation tương ứng
-        with open(os.path.join(annotation_folder, filename.replace('.jpg', '.txt')), 'r') as f:
-            annotations = [line.strip().split() for line in f]
+            # Di chuyển file từ thư mục nguồn đến thư mục đích
+            shutil.move(source_file, destination_file)
 
-        # Chuyển đổi annotations thành dạng phù hợp cho Albumentations
-        bboxes = [list(map(float, ann[1:])) for ann in annotations]
-        class_labels = [int(ann[0]) for ann in annotations]
-
-        # Áp dụng biến đổi cho hình ảnh và bounding box
-        transformed = transform(image=image, bboxes=bboxes, class_labels=class_labels)
-        transformed_image = transformed['image']
-        transformed_bboxes = transformed['bboxes']
-
-        # Cập nhật file annotation
-        with open(os.path.join(annotation_folder, filename.replace('.jpg', '.txt')), 'w') as f:
-            for bbox, label in zip(transformed_bboxes, class_labels):
-                f.write(f"{label} {' '.join(map(str, bbox))}\n")
+# Sử dụng hàm
+image_folders = [r'augment_image\blur',
+                  r'augment_image\brightness', 
+                  r'augment_image\darkness',
+                  r"augment_image\high_contrast",
+                  r"augment_image\low_contrast",
+                  r"augment_image\noise",
+                  r"augment_image\resize"]  # Thay đổi này thành danh sách thư mục nguồn của bạn\
+annotation_folder = [r'adjust_annotation\blur',
+                     r'adjust_annotation\brightness', 
+                  r'adjust_annotation\darkness',
+                  r"adjust_annotation\high_contrast",
+                  r"adjust_annotation\low_contrast",
+                  r"adjust_annotation\noise",
+                  r"adjust_annotation\resize"]  # Thay đổi này thành danh sách thư mục nguồn của bạn
+destination_folder = r'split\train\labels'  # Thay đổi này thành thư mục đích của bạn
+merge_folders(annotation_folder, destination_folder)
