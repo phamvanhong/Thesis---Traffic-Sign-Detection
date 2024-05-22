@@ -65,7 +65,7 @@ class AdjustBoundingBoxes:
         height_scale = 640 / self.image_height
         return width_scale, height_scale
     
-    def convert_to_decimal_format(self, bbox: list) -> list:
+    def convert_to_yolo_format(self, bbox: list) -> list:
         """
         Convert the bounding box format from [x1, y1, x2, y2] to YOLO format [center_x, center_y, width, height]
         Args:
@@ -106,7 +106,7 @@ class AdjustBoundingBoxes:
                              int(standard_annotation[1]*height_scale),
                              int(standard_annotation[2]*width_scale),
                              int(standard_annotation[3]*height_scale)]
-            normalized_bboxes = self.convert_to_decimal_format(resized_bboxes)
+            normalized_bboxes = self.convert_to_yolo_format(resized_bboxes)
             annotations.append([label, normalized_bboxes])
         return annotations
 
