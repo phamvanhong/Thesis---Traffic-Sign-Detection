@@ -8,7 +8,7 @@ from src.model.get_path import FilePathCollector
 def main():
 
     # set up 
-    train_annotation_folder = r"speedlitmit50\labels"
+    train_annotation_folder = r"speedlitmit50\train\labels"
     test_annotation_folder = r"data\VN_Traffic_Sign_Robo\test\labels"
     valid_annotation_folder = r"data\VN_Traffic_Sign_Robo\valid\labels"
     image_folder = r"data\VN_Traffic_Sign_Robo\train\images"
@@ -25,25 +25,25 @@ def main():
     brightness = r"adjust_annotation\brightness"
 
     #create annotation
-    resize_adjust = AdjustBoundingBoxes(resize, annotations, 416, 416)
+    resize_adjust = AdjustBoundingBoxes(resize, annotations, 640, 640)
     resize_adjust.write_new_bboxes_to_annotations_file()
 
-    blur_adjust = AdjustBoundingBoxes(blur, annotations, 416, 416)
-    blur_adjust.write_new_bboxes_to_annotations_file()
+    # blur_adjust = AdjustBoundingBoxes(blur, annotations, 640, 640)
+    # blur_adjust.write_new_bboxes_to_annotations_file()
 
-    noise_adjust = AdjustBoundingBoxes(noise, annotations, 416, 416)
+    noise_adjust = AdjustBoundingBoxes(noise, annotations, 640, 640)
     noise_adjust.write_new_bboxes_to_annotations_file()
 
-    high_contrast_adjust = AdjustBoundingBoxes(high_contrast, annotations, 416, 416)
-    high_contrast_adjust.write_new_bboxes_to_annotations_file()
+    # high_contrast_adjust = AdjustBoundingBoxes(high_contrast, annotations, 640, 640)
+    # high_contrast_adjust.write_new_bboxes_to_annotations_file()
 
-    low_contrast_adjust = AdjustBoundingBoxes(low_contrast, annotations, 416, 416)
-    low_contrast_adjust.write_new_bboxes_to_annotations_file()
+    # low_contrast_adjust = AdjustBoundingBoxes(low_contrast, annotations, 640, 640)
+    # low_contrast_adjust.write_new_bboxes_to_annotations_file()
 
-    darkness_adjust = AdjustBoundingBoxes(darkness, annotations, 416, 416)
-    darkness_adjust.write_new_bboxes_to_annotations_file()
+    # darkness_adjust = AdjustBoundingBoxes(darkness, annotations, 640, 640)
+    # darkness_adjust.write_new_bboxes_to_annotations_file()
 
-    brightness_adjust = AdjustBoundingBoxes(brightness, annotations, 416, 416)
+    brightness_adjust = AdjustBoundingBoxes(brightness, annotations, 640, 640)
     brightness_adjust.write_new_bboxes_to_annotations_file()
 
 

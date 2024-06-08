@@ -1,7 +1,7 @@
 import os
 
 # Đường dẫn tới thư mục chứa các file annotation
-folder_path = r'speedlitmit50\labels'
+folder_path = r'speedlitmit50\train\labels'
 
 # Duyệt qua từng file trong thư mục
 for filename in os.listdir(folder_path):
