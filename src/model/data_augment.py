@@ -80,7 +80,7 @@ class DataAugment:
             PIL.Image.Image: The image with added blur
         """
         img = Image.open(img_path)
-        return img.filter(ImageFilter.GaussianBlur(radius=1))
+        return img.filter(ImageFilter.GaussianBlur(radius=2))
 
     def rotate(self, img_path: str, angle: float) -> Image.Image:
         """
