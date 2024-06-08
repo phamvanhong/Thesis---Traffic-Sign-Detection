@@ -6,7 +6,7 @@ from src.model.data_augment import DataAugment
 
 
 def main():
-    train_data_folder = r"speedlitmit60\images"
+    train_data_folder = r"speedlitmit80\images"
     test_data_folder = r"data\VN_Traffic_Sign_Robo\test\images"
     valid_data_folder = r"data\VN_Traffic_Sign_Robo\valid\images"
 

@@ -3,8 +3,8 @@ import numpy as np
 import sys
 sys.path.append(r"E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection")
 
-image = r"augment_image\blur\1_jpg.rf.4780bf5c38013cbdff6f5a43e48629bablur.jpg"
-label = r"E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection\adjust_annotation\blur\1_jpg.rf.4780bf5c38013cbdff6f5a43e48629bablur.txt"
+image = r"augment_image\blur\p57_jpg.rf.34c3805aa3308479b86f64c8d28552d7blur.jpg"
+label = r"adjust_annotation\blur\p57_jpg.rf.34c3805aa3308479b86f64c8d28552d7blur.txt"
 
 # Đọc ảnh
 img = cv2.imread(image)
