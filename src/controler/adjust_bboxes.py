@@ -25,25 +25,25 @@ def main():
     brightness = r"adjust_annotation\brightness"
 
     #create annotation
-    resize_adjust = AdjustBoundingBoxes(resize, annotations, 320, 320)
+    resize_adjust = AdjustBoundingBoxes(resize, annotations, 416, 416)
     resize_adjust.write_new_bboxes_to_annotations_file()
 
-    blur_adjust = AdjustBoundingBoxes(blur, annotations, 320, 320)
+    blur_adjust = AdjustBoundingBoxes(blur, annotations, 416, 416)
     blur_adjust.write_new_bboxes_to_annotations_file()
 
-    noise_adjust = AdjustBoundingBoxes(noise, annotations, 320, 320)
+    noise_adjust = AdjustBoundingBoxes(noise, annotations, 416, 416)
     noise_adjust.write_new_bboxes_to_annotations_file()
 
-    high_contrast_adjust = AdjustBoundingBoxes(high_contrast, annotations, 320, 320)
+    high_contrast_adjust = AdjustBoundingBoxes(high_contrast, annotations, 416, 416)
     high_contrast_adjust.write_new_bboxes_to_annotations_file()
 
-    low_contrast_adjust = AdjustBoundingBoxes(low_contrast, annotations, 320, 320)
+    low_contrast_adjust = AdjustBoundingBoxes(low_contrast, annotations, 416, 416)
     low_contrast_adjust.write_new_bboxes_to_annotations_file()
 
-    darkness_adjust = AdjustBoundingBoxes(darkness, annotations, 320, 320)
+    darkness_adjust = AdjustBoundingBoxes(darkness, annotations, 416, 416)
     darkness_adjust.write_new_bboxes_to_annotations_file()
 
-    brightness_adjust = AdjustBoundingBoxes(brightness, annotations, 320, 320)
+    brightness_adjust = AdjustBoundingBoxes(brightness, annotations, 416, 416)
     brightness_adjust.write_new_bboxes_to_annotations_file()
 
 

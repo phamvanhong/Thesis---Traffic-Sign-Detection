@@ -2,7 +2,7 @@ from PIL import Image
 import os
 
 # Đường dẫn tới thư mục chứa các ảnh
-folder_path = r'speedlitmit60\valid\images'
+folder_path = r'speedlitmit60\images'
 
 # Duyệt qua từng file trong thư mục
 for filename in os.listdir(folder_path):
