@@ -18,8 +18,8 @@ image = [r'augment_image\resize',
              r'augment_image\darkness',
              r'augment_image\brightness']
 # Thư mục đích
-image_folder = r"FINISH_IMAGE\50\images"
-annotation_folder = r"FINISH_IMAGE\50\labels"
+image_folder = r"FINISH_IMAGE\60\images"
+annotation_folder = r"FINISH_IMAGE\60\labels"
 
 # Đảm bảo thư mục đích tồn tại
 os.makedirs(image_folder, exist_ok=True)

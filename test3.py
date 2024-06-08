@@ -1,7 +1,7 @@
 import os
 
 # Đường dẫn tới thư mục chứa các file annotation
-folder_path = r'speedlitmit50\train\labels'
+folder_path = r'speedlitmit60\labels'
 
 # Duyệt qua từng file trong thư mục
 for filename in os.listdir(folder_path):
@@ -16,7 +16,7 @@ for filename in os.listdir(folder_path):
         new_lines = []
         for line in lines:
             parts = line.strip().split()
-            parts[0] = '7'  # Thay đổi class thành số 7
+            parts[0] = '8'  # Thay đổi class thành số 7
             new_line = ' '.join(parts)
             new_lines.append(new_line)
         
