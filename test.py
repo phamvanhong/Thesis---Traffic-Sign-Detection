@@ -1,15 +1,40 @@
 import cv2
 import numpy as np
+import sys
+sys.path.append(r"E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection")
 
-image = r"add data\speed limit 50\train\images\004_0001_j-Copy-2-_png_jpg.rf.50783e2be4b2f99d30313e12ae7a3424.jpg"
-label = r"data\VN_Traffic_Sign_Robo\test\labels\image59_jpg.rf.08449a8fb703386b97460054f5503c8e.txt"
+image = r"final_image_dataset\test\images\image_4_jpg.rf.082ed89f248aaf391eab467aa834f5acresize.jpg"
+label = r"final_image_dataset\test\labels\image_4_jpg.rf.082ed89f248aaf391eab467aa834f5acresize.txt"
 
 # Đọc ảnh
 img = cv2.imread(image)
 
 # Kích thước ảnh
 h_img, w_img, _ = img.shape
-print(f'Kích thước ảnh: {w_img} x {h_img}')
+with open(label, 'r') as f:
+    lines = f.readlines()
+
+# Chuyển đổi dữ liệu annotation thành numpy array
+annotations = [list(map(float, line.strip().split())) for line in lines]
+annotations = np.array(annotations)
+
+# Vẽ bounding boxes
+for ann in annotations:
+    class_id, x_center, y_center, w, h = ann
+    x_center *= w_img
+    y_center *= h_img
+    w *= w_img
+    h *= h_img
+    x1 = int(x_center - w / 2)
+    y1 = int(y_center - h / 2)
+    x2 = x1 + int(w)
+    y2 = y1 + int(h)
+    cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+
+# Hiển thị ảnh
+cv2.imshow('Image', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 
 

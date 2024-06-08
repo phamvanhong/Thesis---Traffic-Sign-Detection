@@ -13,7 +13,7 @@ def main():
     valid_annotation_folder = r"data\VN_Traffic_Sign_Robo\valid\labels"
     image_folder = r"data\VN_Traffic_Sign_Robo\train\images"
     # get annotation file paths
-    annotations = FilePathCollector(image_folder, valid_annotation_folder_annotation_folder).get_annotation_path()
+    annotations = FilePathCollector(image_folder, valid_annotation_folder).get_annotation_path()
     
     # set up path
     resize = r"adjust_annotation\resize"

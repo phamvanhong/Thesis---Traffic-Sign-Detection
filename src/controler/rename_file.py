@@ -14,16 +14,16 @@ def rename_files_in_folder(folder_path: str, file_name: str, new_character: str)
             os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
 
 def main():
-    # resize = r"augment_image\resize"
-    # blur = r"augment_image\blur"
-    # noise = r"augment_image\noise"
-    # high_contrast = r"augment_image\high_contrast"
-    # low_contrast = r"augment_image\low_contrast"
-    # darkness = r"augment_image\darkness"
-    # brightness = r"augment_image\brightness"
+    resize = r"augment_image\resize"
+    blur = r"augment_image\blur"
+    noise = r"augment_image\noise"
+    high_contrast = r"augment_image\high_contrast"
+    low_contrast = r"augment_image\low_contrast"
+    darkness = r"augment_image\darkness"
+    brightness = r"augment_image\brightness"
 
-    # file_name = '.jpg'
-    # rename_files_in_folder(resize, file_name, "resize")
+    file_name = '.jpg'
+    rename_files_in_folder(resize, file_name, "resize")
     # rename_files_in_folder(blur, file_name, "blur")
     # rename_files_in_folder(noise, file_name, "noise")
     # rename_files_in_folder(high_contrast, file_name, "high_con")
