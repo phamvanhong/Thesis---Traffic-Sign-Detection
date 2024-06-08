@@ -15,7 +15,7 @@ names: ['Biển phụ',
         'Giới hạn tốc độ 80Km/h', 
         'Hướng phải đi vòng sang phải', 
         'Khác', 
-        'Làn đường chờ từng xe']
+        'Làn đường cho từng xe']
 
 roboflow:
   workspace: yolo-q0k0v
