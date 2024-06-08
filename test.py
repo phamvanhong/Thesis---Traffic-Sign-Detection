@@ -3,14 +3,15 @@ import numpy as np
 import sys
 sys.path.append(r"E:\Traffic_Sign_Detection Thesis\Thesis---Traffic-Sign-Detection")
 
-image = r"final_image_dataset\test\images\image_4_jpg.rf.082ed89f248aaf391eab467aa834f5acresize.jpg"
-label = r"final_image_dataset\test\labels\image_4_jpg.rf.082ed89f248aaf391eab467aa834f5acresize.txt"
+image = r"speedlitmit50\images\2_1_jpg.rf.1103829a1d82747cfabeaef636275805.jpg"
+label = r"FINISH_IMAGE\50\labels\004_0001_j-Copy-2-_png_jpg.rf.50783e2be4b2f99d30313e12ae7a3424blur.txt"
 
 # Đọc ảnh
 img = cv2.imread(image)
 
 # Kích thước ảnh
 h_img, w_img, _ = img.shape
+print(h_img, w_img)
 with open(label, 'r') as f:
     lines = f.readlines()
 

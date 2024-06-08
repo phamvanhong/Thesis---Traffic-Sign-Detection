@@ -18,13 +18,17 @@ image = [r'augment_image\resize',
              r'augment_image\darkness',
              r'augment_image\brightness']
 # Thư mục đích
-image_folder = r"final_image_dataset\train\images"
-annotation_folder = r"final_image_dataset\train\labels"
+image_folder = r"FINISH_IMAGE\50\images"
+annotation_folder = r"FINISH_IMAGE\50\labels"
 
 # Đảm bảo thư mục đích tồn tại
 os.makedirs(image_folder, exist_ok=True)
+os.makedirs(annotation_folder, exist_ok=True)
 
 # Di chuyển tất cả các tệp từ thư mục nguồn đến thư mục đích
 for folder in image:
     for file_name in os.listdir(folder):
         shutil.move(os.path.join(folder, file_name), image_folder)
+for folder in annotation:
+    for file_name in os.listdir(folder):
+        shutil.move(os.path.join(folder, file_name), annotation_folder)

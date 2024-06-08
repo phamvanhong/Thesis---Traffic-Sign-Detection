@@ -24,12 +24,12 @@ def main():
 
     file_name = '.jpg'
     rename_files_in_folder(resize, file_name, "resize")
-    # rename_files_in_folder(blur, file_name, "blur")
-    # rename_files_in_folder(noise, file_name, "noise")
-    # rename_files_in_folder(high_contrast, file_name, "high_con")
-    # rename_files_in_folder(low_contrast, file_name, "low_con")
-    # rename_files_in_folder(darkness, file_name, "darkness")
-    # rename_files_in_folder(brightness, file_name, "brightness")
+    rename_files_in_folder(blur, file_name, "blur")
+    rename_files_in_folder(noise, file_name, "noise")
+    rename_files_in_folder(high_contrast, file_name, "high_con")
+    rename_files_in_folder(low_contrast, file_name, "low_con")
+    rename_files_in_folder(darkness, file_name, "darkness")
+    rename_files_in_folder(brightness, file_name, "brightness")
 
     resize = r"adjust_annotation\resize"
     blur = r"adjust_annotation\blur"
@@ -41,12 +41,12 @@ def main():
 
     file_name = '.txt'
     rename_files_in_folder(resize, file_name, "resize")
-    # rename_files_in_folder(blur, file_name, "blur")
-    # rename_files_in_folder(noise, file_name, "noise")
-    # rename_files_in_folder(high_contrast, file_name, "high_con")
-    # rename_files_in_folder(low_contrast, file_name, "low_con")
-    # rename_files_in_folder(darkness, file_name, "darkness")
-    # rename_files_in_folder(brightness, file_name, "brightness")
+    rename_files_in_folder(blur, file_name, "blur")
+    rename_files_in_folder(noise, file_name, "noise")
+    rename_files_in_folder(high_contrast, file_name, "high_con")
+    rename_files_in_folder(low_contrast, file_name, "low_con")
+    rename_files_in_folder(darkness, file_name, "darkness")
+    rename_files_in_folder(brightness, file_name, "brightness")
 
 if __name__ == "__main__":
     main()
